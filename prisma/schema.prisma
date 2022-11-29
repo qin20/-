@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 项羽 20220111 - 20220102 出国 出生
+// 项羽 20220111 - 20220102 樊城 死亡
+// 天气 20220111 - 20220102
+
+// 用户
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  items Item[]
+}
+
+// 地图
+model Map {
+  id    Int    @id @default(autoincrement())
+  name  String
+}
+
+// 条目：任何人和事
+model Item {
+  id        Int        @id @default(autoincrement())
+  name      String
+  descr     String?    @db.VarChar(4096)
+  timeline  Timeline[]
+  createdAt DateTime   @db.DateTime @default(dbgenerated("NOW()"))
+  updatedAt DateTime   @db.DateTime @default(dbgenerated("NOW() ON UPDATE NOW()"))
+  author    User       @relation(fields: [authorId], references: [id])
+  authorId  Int
+}
+
+// 条目历史时间线
+model Timeline {
+  id       Int      @id @default(autoincrement())
+  item     Item     @relation(fields: [itemId], references: [id])
+  what     String   @db.VarChar(2048)
+  start    String
+  end      String?
+  where    String?
+  position String?
+  itemId   Int
+}

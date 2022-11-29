@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-primary {
+    @apply rounded bg-blue-500 py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400 disabled:bg-blue-300;
+  }
+
+  .btn-xs {
+    @apply p-1 text-xs;
+  }
+
+  body {
+    @apply text-sm text-gray-800;
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  td,
+  th {
+    padding: 10px;
+    @apply border border-gray-400;
+  }
+}
